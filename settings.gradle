@@ -1,0 +1,2 @@
+include ':kalev-lib', ':kalev-android', ':sample'
+rootProject.name = 'kalev'

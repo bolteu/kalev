@@ -1,0 +1,19 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+  compileSdkVersion 29
+
+  defaultConfig {
+        applicationId "eu.bolt.kalev.sample"
+        minSdkVersion 14
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+    }
+}
+
+dependencies {
+    implementation project (':kalev-android')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.72"
+}
