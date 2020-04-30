@@ -9,7 +9,7 @@ class PrintPoeg : Kalevipoeg {
 
     private val anonymousClassPattern = Pattern.compile("(\\$\\d+)+$")
     private val maxTagLength = 23
-    private val callStackIndex = 5
+    private val callStackIndex = 6
 
     override fun log(entry: LogEntry) {
         when (entry.severity) {
@@ -45,7 +45,7 @@ class PrintPoeg : Kalevipoeg {
     private fun LogEntry.formatString(): String {
         val oobj = JSONObject()
         oobj.put("message", message)
-        getData().entries.forEach {
+        data.entries.forEach {
             oobj.put(it.key, it.value)
         }
         return oobj.toString()

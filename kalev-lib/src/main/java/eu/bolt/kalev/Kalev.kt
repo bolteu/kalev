@@ -1,7 +1,5 @@
 package eu.bolt.kalev
 
-import sun.rmi.runtime.Log
-
 object Kalev {
 
     const val V = "v"
@@ -14,45 +12,70 @@ object Kalev {
 
     @JvmStatic
     fun d(message: String) {
-        LogEntry().d(message)
+        LogEntry().log(message, D)
+    }
+
+    @JvmStatic
+    fun d(throwable: Throwable, message: String) {
+        with(throwable).log(message, D)
+    }
+
+    @JvmStatic
+    fun e(message: String) {
+        LogEntry().log(message, E)
+    }
+
+    @JvmStatic
+    fun e(throwable: Throwable, message: String) {
+        with(throwable).log(message, E)
+    }
+
+    @JvmStatic
+    fun i(message: String) {
+        LogEntry().log(message, I)
+    }
+
+    @JvmStatic
+    fun i(throwable: Throwable, message: String) {
+        with(throwable).log(message, I)
+    }
+
+    @JvmStatic
+    fun v(message: String) {
+        LogEntry().log(message, V)
+    }
+
+    @JvmStatic
+    fun v(throwable: Throwable, message: String) {
+        with(throwable).log(message, V)
     }
 
     @JvmStatic
     fun w(message: String) {
-        LogEntry().w(message)
+        LogEntry().log(message, W)
     }
 
     @JvmStatic
-    fun w(throwable: Throwable) {
-        LogEntry().with(throwable).w("")
+    fun w(throwable: Throwable, message: String) {
+        with(throwable).log(message, W)
     }
 
     @JvmStatic
-    fun with(key: String, value: String): LogEntry {
-        return LogEntry().with(key, value)
-    }
-
-    @JvmStatic
-    fun with(key: String, value: Int): LogEntry {
-        return LogEntry().with(key, value)
-    }
-
     fun with(key: String, value: Any?): LogEntry {
         return LogEntry().with(key, value)
     }
 
-    fun with(key: String, value: Boolean): LogEntry {
-        return LogEntry().with(key, value)
-    }
-
+    @JvmStatic
     fun tag(tag: String): LogEntry {
         return LogEntry().tag(tag)
     }
 
+    @JvmStatic
     fun with(error: Throwable): LogEntry {
         return LogEntry().with(error)
     }
 
+    @JvmStatic
     fun addPoeg(consumer: Kalevipoeg) {
         consumers.add(consumer)
     }
