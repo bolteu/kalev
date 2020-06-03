@@ -8,6 +8,7 @@ import eu.bolt.kalev.Kalev
 class SampleActivity : Activity() {
 
     private var clickCounter = 0
+    private val networkDemo = NetworkDemo()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,6 +17,14 @@ class SampleActivity : Activity() {
         findViewById<View>(R.id.click).setOnClickListener {
             clickCounter += 1
             Kalev.with("counter", clickCounter).d("Click")
+        }
+
+        findViewById<View>(R.id.networkGet).setOnClickListener {
+            networkDemo.doGet()
+        }
+
+        findViewById<View>(R.id.networkErr).setOnClickListener {
+            networkDemo.doNotFound()
         }
 
         Kalev.d("On start")
