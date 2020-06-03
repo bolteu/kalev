@@ -8,6 +8,7 @@ The idea of `Kalev` is pretty similar to `Timber`. Library provides `Kalevipoeg`
 
 `kalev-lib` provides pure JVM implementation. Doesn't cotains any implementation of `Kalevipoeg`  
 `kalev-android` contains bridge between Kalev and Android's log system. `PrintPoeg` format log entry as JSON string and print it to LogCat
+`kalev-okhttp` provide interceptor for `okhttp` to log network requests in Kalev-way
 
 
 ## Usage
@@ -61,15 +62,61 @@ Besides the fields added with `with` some fields are automatically added to all 
 `timestamp` The timestamp when the entry was created.  
 `message` The logging message passed to {v, d, i, w, e} after the `with` call. E.g. `Failed to send event.`
 
+### Network Logging
+
+Add `LoggingInterceptor` to your `OkHttpClient` to log network requests in Kalev-way.
+Examples of network logs:
+
+[http://httpbin.org/get?id=42](http://httpbin.org/get?id=42)  
+```json
+{
+  "message": "network",
+  "method": "GET",
+  "path": "\/get",
+  "id": "42",
+  "response.code": 200,
+  "response.body": {
+    "args": {
+      "id": "42"
+    },
+    "headers": {
+      "Accept-Encoding": "gzip",
+      "Content-Type": "application\/json",
+      "Host": "httpbin.org",
+      "User-Agent": "okhttp\/3.12.12",
+      "X-Amzn-Trace-Id": "Root=1-5ed772b8-71eaec363ea2adcca9201200"
+    },
+    "url": "https:\/\/httpbin.org\/get?id=42"
+  }
+}
+```
+
+[http://httpbin.org/unknown](http://httpbin.org/unknown)
+```json
+{
+  "message": "network",
+  "method": "GET",
+  "path": "\/gett",
+  "id": "42",
+  "response.code": 404,
+  "response.body": "<!DOCTYPE HTML PUBLIC \"-\/\/W3C\/\/DTD HTML 3.2 Final\/\/EN\">\n<title>404 Not Found<\/title>\n<h1>Not Found<\/h1>\n<p>The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.<\/p>\n"
+}
+```
+
 ## Gradle
 Add this to your dependencies block.
 ```
-implementation 'eu.bolt:kalev:1.0.0'
+implementation 'eu.bolt:kalev:1.0.1'
 ```
 
 To use an android extension use this dependency instead:
 ```
-implementation 'eu.bolt:kalev-android:1.0.0'
+implementation 'eu.bolt:kalev-android:1.0.1'
+```
+
+Kalev-okhttp package:
+```
+implementation 'eu.bolt:kalev-okhttp:1.0.1'
 ```
 
 ## Naming
