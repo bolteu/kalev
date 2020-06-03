@@ -8,4 +8,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Click" />
+
+    <Button
+        android:id="@+id/networkGet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GET request" />
+
+    <Button
+        android:id="@+id/networkErr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="404 request" />
+
 </LinearLayout>

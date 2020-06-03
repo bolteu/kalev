@@ -1,0 +1,10 @@
+apply plugin: 'kotlin'
+apply plugin: 'com.vanniktech.maven.publish'
+
+dependencies {
+    api project (':kalev-lib')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
+    implementation "com.squareup.okhttp3:okhttp:3.12.12"
+    compileOnly "org.json:json:20141113"
+}

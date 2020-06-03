@@ -1,2 +1,2 @@
-include ':kalev-lib', ':kalev-android', ':sample'
+include ':kalev-lib', ':kalev-android', ':sample', ':kalev-okhttp'
 rootProject.name = 'kalev'
