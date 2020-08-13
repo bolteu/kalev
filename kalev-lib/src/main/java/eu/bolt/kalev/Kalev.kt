@@ -1,5 +1,6 @@
 package eu.bolt.kalev
 
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 object Kalev {
 
     const val V = "v"
@@ -8,11 +9,18 @@ object Kalev {
     const val W = "w"
     const val E = "e"
 
+    /**
+     * No Operation mode.
+     * In case of enabled NOP mode Kalev will not create log entries and dispatch them to consumers
+     */
+    var nop = false
+    private val nopEntry = NopLogEntry
+
     private val consumers = mutableListOf<Kalevipoeg>()
 
     @JvmStatic
     fun d(message: String) {
-        LogEntry().log(message, D)
+        getEntry().log(message, D)
     }
 
     @JvmStatic
@@ -22,7 +30,7 @@ object Kalev {
 
     @JvmStatic
     fun e(message: String) {
-        LogEntry().log(message, E)
+        getEntry().log(message, E)
     }
 
     @JvmStatic
@@ -32,7 +40,7 @@ object Kalev {
 
     @JvmStatic
     fun i(message: String) {
-        LogEntry().log(message, I)
+        getEntry().log(message, I)
     }
 
     @JvmStatic
@@ -42,7 +50,7 @@ object Kalev {
 
     @JvmStatic
     fun v(message: String) {
-        LogEntry().log(message, V)
+        getEntry().log(message, V)
     }
 
     @JvmStatic
@@ -52,7 +60,7 @@ object Kalev {
 
     @JvmStatic
     fun w(message: String) {
-        LogEntry().log(message, W)
+        getEntry().log(message, W)
     }
 
     @JvmStatic
@@ -62,22 +70,30 @@ object Kalev {
 
     @JvmStatic
     fun with(key: String, value: Any?): LogEntry {
-        return LogEntry().with(key, value)
+        return getEntry().with(key, value)
     }
 
     @JvmStatic
     fun tag(tag: String): LogEntry {
-        return LogEntry().tag(tag)
+        return getEntry().tag(tag)
     }
 
     @JvmStatic
     fun with(error: Throwable): LogEntry {
-        return LogEntry().with(error)
+        return getEntry().with(error)
     }
 
     @JvmStatic
     fun addPoeg(consumer: Kalevipoeg) {
         consumers.add(consumer)
+    }
+
+    fun getEntry(): LogEntry {
+        return if (nop) {
+            nopEntry
+        } else {
+            LogEntry()
+        }
     }
 
     internal fun log(entry: LogEntry) {
