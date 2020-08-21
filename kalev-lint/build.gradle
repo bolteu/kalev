@@ -1,0 +1,15 @@
+apply plugin: 'kotlin'
+
+targetCompatibility = JavaVersion.VERSION_1_7
+sourceCompatibility = JavaVersion.VERSION_1_7
+
+dependencies {
+    compileOnly "com.android.tools.lint:lint-api:27.0.1"
+    compileOnly "com.android.tools.lint:lint-checks:27.0.1"
+}
+
+jar {
+    manifest {
+        attributes('Lint-Registry-v2': 'eu.bolt.kalev.lint.KalevIssueRegistry')
+    }
+}

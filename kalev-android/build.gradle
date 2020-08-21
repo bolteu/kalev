@@ -16,4 +16,6 @@ android {
 dependencies {
   api project (':kalev-lib')
   implementation "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
+
+  lintPublish project(':kalev-lint')
 }
