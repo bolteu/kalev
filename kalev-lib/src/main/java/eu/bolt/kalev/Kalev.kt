@@ -1,5 +1,9 @@
 package eu.bolt.kalev
 
+import eu.bolt.kalev.engine.Engine
+import eu.bolt.kalev.engine.default.DefaultEngine
+import eu.bolt.kalev.engine.nop.NopEngine
+
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 object Kalev {
 
@@ -13,8 +17,14 @@ object Kalev {
      * No Operation mode.
      * In case of enabled NOP mode Kalev will not create log entries and dispatch them to consumers
      */
-    var nop = false
-    private val nopEntry = NopLogEntry
+    @Deprecated("Use NopEngine as engine instead of nop field")
+    var nop: Boolean
+        get() = engine is NopEngine
+        set(value) {
+            engine = NopEngine()
+        }
+
+    var engine: Engine = DefaultEngine()
 
     private val consumers = mutableListOf<Kalevipoeg>()
 
@@ -89,11 +99,7 @@ object Kalev {
     }
 
     fun getEntry(): LogEntry {
-        return if (nop) {
-            nopEntry
-        } else {
-            LogEntry()
-        }
+        return engine.getEntry()
     }
 
     internal fun log(entry: LogEntry) {

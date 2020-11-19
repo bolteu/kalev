@@ -1,5 +1,7 @@
 package eu.bolt.kalev.sample
 
+import android.app.Application
+import android.util.Log
 import eu.bolt.kalev.Kalev
 import eu.bolt.kalev.okhttp.LoggingInterceptor
 import okhttp3.Call
@@ -9,7 +11,7 @@ import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
 
-class NetworkDemo {
+class NetworkDemo (val application: Application) {
 
     private val okHttpClient = OkHttpClient.Builder()
         .addNetworkInterceptor(LoggingInterceptor())
@@ -37,6 +39,7 @@ class NetworkDemo {
 
         override fun onResponse(call: Call, response: Response) {
             Kalev.d("Got response")
+            Log.e("Hello", "1M inserted/ ${(application as SampleApp).size} . 1")
         }
 
         override fun onFailure(call: Call, e: IOException) {
