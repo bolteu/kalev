@@ -1,5 +1,7 @@
 package eu.bolt.kalev
 
+import eu.bolt.kalev.fast.FastLog
+
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 object Kalev {
 
@@ -15,6 +17,11 @@ object Kalev {
      */
     var nop = false
     private val nopEntry = NopLogEntry
+
+    /**
+     * FastLog can be used for performance-sensitive logging. Note that FastLog will NOT trigger log consumers
+     */
+    var fastLog: FastLog? = null
 
     private val consumers = mutableListOf<Kalevipoeg>()
 
