@@ -17,16 +17,20 @@ class SampleActivity : Activity() {
         findViewById<View>(R.id.click).setOnClickListener {
             clickCounter += 1
             Kalev.with("counter", clickCounter).d("Click")
+            Kalev.fastLog?.d("Click")
         }
 
         findViewById<View>(R.id.networkGet).setOnClickListener {
             networkDemo.doGet()
+            Kalev.fastLog?.d("Started network request")
         }
 
         findViewById<View>(R.id.networkErr).setOnClickListener {
             networkDemo.doNotFound()
+            Kalev.fastLog?.d("Started network request")
         }
 
         Kalev.d("On start")
+        Kalev.fastLog?.v("Activity created")
     }
 }
