@@ -1,5 +1,7 @@
 # Kalev
 
+![Maven Central](https://img.shields.io/maven-central/v/eu.bolt/kalev?style=plastic)
+
 Kalev is a structured logger for JVM (Java, Kotlin etc)
 
 The idea of `Kalev` is pretty similar to `Timber`. Library provides `Kalevipoeg` interface with which you may implement various behaviour for log entries reaction.
