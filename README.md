@@ -1,13 +1,15 @@
 # Kalev
 
+![Maven Central](https://img.shields.io/maven-central/v/eu.bolt/kalev?style=plastic)
+
 Kalev is a structured logger for JVM (Java, Kotlin etc)
 
 The idea of `Kalev` is pretty similar to `Timber`. Library provides `Kalevipoeg` interface with which you may implement various behaviour for log entries reaction.
 
 ## Packages
 
-`kalev-lib` provides pure JVM implementation. Doesn't cotains any implementation of `Kalevipoeg`  
-`kalev-android` contains bridge between Kalev and Android's log system. `PrintPoeg` format log entry as JSON string and print it to LogCat
+`kalev-lib` provides pure JVM implementation. Doesn't contains any implementation of `Kalevipoeg`  
+`kalev-android` contains bridge between Kalev and Android's log system. `PrintPoeg` format log entry as JSON string and print it to LogCat.  
 `kalev-okhttp` provide interceptor for `okhttp` to log network requests in Kalev-way
 
 
@@ -15,7 +17,7 @@ The idea of `Kalev` is pretty similar to `Timber`. Library provides `Kalevipoeg`
 
 Two easy steps:
 
-1. Add any `Kalevipoeg` instances you want on application start. In Android application `onCreate` is a mosst suetable place
+1. Add any `Kalevipoeg` instances you want on application start. In Android application `onCreate` is a most suitable place
 2. Call Kalev's static methods everywhere throughout your app.
 
 Check full Android sample at `sample` dir
@@ -96,27 +98,39 @@ Examples of network logs:
 {
   "message": "network",
   "method": "GET",
-  "path": "\/gett",
+  "path": "\/unknown",
   "id": "42",
   "response.code": 404,
   "response.body": "<!DOCTYPE HTML PUBLIC \"-\/\/W3C\/\/DTD HTML 3.2 Final\/\/EN\">\n<title>404 Not Found<\/title>\n<h1>Not Found<\/h1>\n<p>The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.<\/p>\n"
 }
 ```
 
+### FastLog
+Kalev creates new object for every log entry which may abuse performance in case of stream of entries. You can go around of this issue with FastLog. 
+
+#### FastLog usage
+There is `FastLog` interface which describes fast logger.  
+`kalev-lib` provides `SystemFastLog` implementation which prints messages to standard output stream   
+`kalev-android` provides `AndroidFastLog` implementation which prints messages to Android's LogCat
+##### Initialisation:   
+`Kalev.fastLog = AndroidFastLog()`  
+##### Logging
+`Kalev.fastLog?.v("Activity created")`
+
 ## Gradle
 Add this to your dependencies block.
 ```
-implementation 'eu.bolt:kalev:1.0.1'
+implementation 'eu.bolt:kalev:$latest'
 ```
 
 To use an android extension use this dependency instead:
 ```
-implementation 'eu.bolt:kalev-android:1.0.1'
+implementation 'eu.bolt:kalev-android:$latest'
 ```
 
 Kalev-okhttp package:
 ```
-implementation 'eu.bolt:kalev-okhttp:1.0.1'
+implementation 'eu.bolt:kalev-okhttp:$latest'
 ```
 
 ## Naming
