@@ -95,6 +95,16 @@ object Kalev {
         consumers.add(consumer)
     }
 
+    @JvmStatic
+    fun removePoeg(consumer: Kalevipoeg) {
+        consumers.remove(consumer)
+    }
+
+    @JvmStatic
+    fun removeAllPoegs() {
+        consumers.clear()
+    }
+
     fun getEntry(): LogEntry {
         return if (nop) {
             nopEntry
