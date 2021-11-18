@@ -1,6 +1,10 @@
-package eu.bolt.kalev
+package eu.bolt.kalev.logger.android
 
-object NopLogEntry : LogEntry {
+import android.util.Log
+import eu.bolt.kalev.LogEntry
+import eu.bolt.kalev.utils.generateTag
+
+class AndroidLogEntry : LogEntry {
 
     override fun with(key: String, value: Any?): LogEntry {
         return this
@@ -15,27 +19,27 @@ object NopLogEntry : LogEntry {
     }
 
     override fun v(message: String) {
-        //do nothing
+        Log.v(tag, message)
     }
 
     override fun d(message: String) {
-        //do nothing
+        Log.d(tag, message)
     }
 
     override fun i(message: String) {
-        //do nothing
+        Log.i(tag, message)
     }
 
     override fun w(message: String) {
-        //do nothing
+        Log.w(tag, message)
     }
 
     override fun e(message: String) {
-        //do nothing
+        Log.e(tag, message)
     }
 
     override fun log(message: String, severity: String) {
-        //do nothing
+        Log.println(Log.INFO, tag, message)
     }
 
     override val severity: String
@@ -49,7 +53,5 @@ object NopLogEntry : LogEntry {
         }
 
     override val tag: String?
-        get() {
-            throw UnsupportedOperationException()
-        }
+        get() = generateTag(3)
 }

@@ -1,6 +1,11 @@
 package eu.bolt.kalev
 
 import eu.bolt.kalev.fast.FastLog
+import eu.bolt.kalev.logger.EntryProvider
+import eu.bolt.kalev.logger.Logger
+import eu.bolt.kalev.logger.simple.SimpleEntryFactory
+import eu.bolt.kalev.logger.impl.EntryFactory
+import eu.bolt.kalev.logger.nop.NoOpProvider
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 object Kalev {
@@ -16,7 +21,10 @@ object Kalev {
      * In case of enabled NOP mode Kalev will not create log entries and dispatch them to consumers
      */
     var nop = false
-    private val nopEntry = NopLogEntry
+    val defaultLogger = Logger(EntryFactory)
+    val noOpLogger = Logger(NoOpProvider)
+    val fastLogger = Logger(SimpleEntryFactory)
+    private var logger = Logger(EntryFactory)
 
     /**
      * FastLog can be used for performance-sensitive logging. Note that FastLog will NOT trigger log consumers
@@ -25,19 +33,17 @@ object Kalev {
 
     private val consumers = mutableListOf<Kalevipoeg>()
 
+    fun setLogger(provider: EntryProvider) {
+        logger = Logger(provider)
+    }
+
+    fun getLogger(): Logger {
+        return logger
+    }
+
     @JvmStatic
     fun d(message: String) {
-        getEntry().log(message, D)
-    }
-
-    @JvmStatic
-    fun d(throwable: Throwable, message: String) {
-        with(throwable).log(message, D)
-    }
-
-    @JvmStatic
-    fun e(message: String) {
-        getEntry().log(message, E)
+        getLogger().log(message, D)
     }
 
     @JvmStatic
@@ -47,17 +53,7 @@ object Kalev {
 
     @JvmStatic
     fun i(message: String) {
-        getEntry().log(message, I)
-    }
-
-    @JvmStatic
-    fun i(throwable: Throwable, message: String) {
-        with(throwable).log(message, I)
-    }
-
-    @JvmStatic
-    fun v(message: String) {
-        getEntry().log(message, V)
+        getLogger().log(message, I)
     }
 
     @JvmStatic
@@ -67,7 +63,7 @@ object Kalev {
 
     @JvmStatic
     fun w(message: String) {
-        getEntry().log(message, W)
+        getLogger().log(message, W)
     }
 
     @JvmStatic
@@ -76,18 +72,23 @@ object Kalev {
     }
 
     @JvmStatic
+    fun e(error: Throwable) {
+        getLogger().log(error.message ?: error.javaClass.simpleName, E)
+    }
+
+    @JvmStatic
     fun with(key: String, value: Any?): LogEntry {
-        return getEntry().with(key, value)
+        return getLogger().with(key, value)
     }
 
     @JvmStatic
     fun tag(tag: String): LogEntry {
-        return getEntry().tag(tag)
+        return getLogger().tag(tag)
     }
 
     @JvmStatic
     fun with(error: Throwable): LogEntry {
-        return getEntry().with(error)
+        return getLogger().with(error)
     }
 
     @JvmStatic
@@ -100,20 +101,7 @@ object Kalev {
         consumers.remove(consumer)
     }
 
-    @JvmStatic
-    fun removeAllPoegs() {
-        consumers.clear()
-    }
-
-    fun getEntry(): LogEntry {
-        return if (nop) {
-            nopEntry
-        } else {
-            LogEntry()
-        }
-    }
-
-    internal fun log(entry: LogEntry) {
+    internal fun dispatch(entry: LogEntry) {
         consumers.forEach {
             it.log(entry)
         }

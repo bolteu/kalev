@@ -1,6 +1,8 @@
 package eu.bolt.kalev
 
 import android.util.Log
+import eu.bolt.kalev.logger.impl.LogEntryImpl
+import eu.bolt.kalev.logger.simple.SimpleLogEntry
 import eu.bolt.kalev.utils.generateTag
 import org.json.JSONObject
 
@@ -23,11 +25,21 @@ class PrintPoeg : Kalevipoeg {
     }
 
     private fun LogEntry.formatString(): String {
-        val oobj = JSONObject()
-        oobj.put("message", message)
-        data.entries.forEach {
-            oobj.put(it.key, it.value)
+        return when (this) {
+            is LogEntryImpl -> {
+                val oobj = JSONObject()
+                oobj.put("message", message)
+                data.entries.forEach {
+                    oobj.put(it.key, it.value)
+                }
+                oobj.toString()
+            }
+            is SimpleLogEntry -> {
+                message
+            }
+            else -> {
+                throw UnsupportedOperationException()
+            }
         }
-        return oobj.toString()
     }
 }

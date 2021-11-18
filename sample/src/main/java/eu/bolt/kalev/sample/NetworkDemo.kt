@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import java.io.IOException
+import kotlin.random.Random
 
 class NetworkDemo {
 
@@ -36,11 +37,25 @@ class NetworkDemo {
     private val networkCallback = object : Callback {
 
         override fun onResponse(call: Call, response: Response) {
-            Kalev.d("Got response")
+            val logger = if (Random.Default.nextBoolean()) {
+                Kalev.fastLog?.d("Default logger")
+                Kalev.defaultLogger
+            } else {
+                Kalev.fastLog?.d("Silent logger")
+                Kalev.noOpLogger
+            }
+            logger.d("Got response")
         }
 
         override fun onFailure(call: Call, e: IOException) {
-            Kalev.e(e, "Got error")
+            val logger = if (Random.Default.nextBoolean()) {
+                Kalev.fastLog?.d("Default logger")
+                Kalev.defaultLogger
+            } else {
+                Kalev.fastLog?.d("Silent logger")
+                Kalev.noOpLogger
+            }
+            logger.e(e, "Got error")
         }
     }
 }

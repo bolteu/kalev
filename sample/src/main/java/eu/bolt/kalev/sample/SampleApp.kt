@@ -4,7 +4,7 @@ import android.app.Application
 import eu.bolt.kalev.AndroidFastLog
 import eu.bolt.kalev.Kalev
 import eu.bolt.kalev.PrintPoeg
-import eu.bolt.kalev.fast.SystemFastLog
+import eu.bolt.kalev.logger.android.AndroidLogFactory
 
 class SampleApp : Application() {
 
@@ -12,6 +12,7 @@ class SampleApp : Application() {
         super.onCreate()
 
         if (BuildConfig.DEBUG) {
+            Kalev.setLogger(AndroidLogFactory())
             Kalev.addPoeg(PrintPoeg())
             Kalev.fastLog = AndroidFastLog()
         }

@@ -17,7 +17,7 @@ class SampleActivity : Activity() {
         findViewById<View>(R.id.click).setOnClickListener {
             clickCounter += 1
             Kalev.with("counter", clickCounter).d("Click")
-            Kalev.fastLog?.d("Click")
+            Kalev.fastLog?.d("Click - fastlog")
         }
 
         findViewById<View>(R.id.networkGet).setOnClickListener {

@@ -1,63 +1,28 @@
 package eu.bolt.kalev
 
-import java.util.Date
+interface LogEntry {
 
-@Suppress("unused")
-open class LogEntry internal constructor() {
+    fun with(key: String, value: Any?): LogEntry
 
-    var tag: String? = null
-        private set
-    var throwable: Throwable? = null
-        private set
-    var timestamp: Long? = null
-        private set
-    lateinit var severity: String
-    lateinit var message: String
-    val data = mutableMapOf<String, Any?>()
+    fun with(throwable: Throwable): LogEntry
 
-    open fun with(key: String, value: Any?): LogEntry {
-        data[key] = value
-        return this
-    }
+    fun tag(tag: String): LogEntry
 
-    open fun with(throwable: Throwable): LogEntry {
-        this.throwable = throwable
-        return this
-    }
+    fun v(message: String)
 
-    open fun tag(tag: String): LogEntry {
-        this.tag = tag
-        return this
-    }
+    fun d(message: String)
 
-    open fun v(message: String) {
-        log(message, Kalev.V)
-    }
+    fun i(message: String)
 
-    open fun d(message: String) {
-        log(message, Kalev.D)
-    }
+    fun w(message: String)
 
-    open fun i(message: String) {
-        log(message, Kalev.I)
-    }
+    fun e(message: String)
 
-    open fun w(message: String) {
-        log(message, Kalev.W)
-    }
+    fun log(message: String, severity: String)
 
-    open fun e(message: String) {
-        log(message, Kalev.E)
-    }
+    val severity:String
 
-    internal open fun log(message: String, severity: String) {
-        this.severity = severity
-        timestamp = Date().time
-        this.message = message
-        Kalev.log(this)
-    }
+    val throwable: Throwable?
 
-    override fun toString(): String {
-        return "LogEntry(tag=$tag, throwable=$throwable, timestamp=$timestamp, severity='$severity', message='$message', data=$data)"
-    }
+    val tag: String?
 }
