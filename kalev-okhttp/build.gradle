@@ -1,5 +1,6 @@
 apply plugin: 'kotlin'
 apply plugin: 'com.vanniktech.maven.publish'
+apply plugin: "org.sonarqube"
 
 dependencies {
     api project (':kalev-lib')
