@@ -1,7 +1,7 @@
 buildscript {
 
     ext.versions = [
-            'kotlin': '1.5.31'
+            'kotlin': '1.6.20'
     ]
 
     repositories {
@@ -10,7 +10,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.3'
+        classpath 'com.android.tools.build:gradle:7.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath 'com.vanniktech:gradle-maven-publish-plugin:0.18.0'
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3"
