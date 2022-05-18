@@ -1,0 +1,22 @@
+name: CodeQuality check
+on: [pull_request]
+
+jobs:
+  detekt:
+    name: Check Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+          ref: ${{ github.head_ref }}
+
+      - name: detekt
+        uses: devindi/action-detekt@v1.20.4
+        with:
+          github_token: ${{ secrets.github_token }}
+          detekt_excludes: "**/build/**,**/.idea/**,**/test/**,**/androidTest*/**"
+          detekt_config: ./config/detekt.yml
+          reviewdog_filter: file
