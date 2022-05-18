@@ -1,0 +1,7 @@
+build:
+  maxIssues: 0
+
+style:
+  active: true
+  NewLineAtEndOfFile:
+    active: true
